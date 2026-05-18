@@ -6,7 +6,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,11 +17,12 @@ import androidx.navigation.NavController
 private data class VideoTab(val label: String, val url: String)
 
 private val VIDEO_TABS = listOf(
-    VideoTab("House Builds",  "https://www.youtube.com/results?search_query=pokopia+house+build+tutorial"),
-    VideoTab("Island Design", "https://www.youtube.com/results?search_query=pokopia+island+design+ideas"),
-    VideoTab("All Pokémon",   "https://www.youtube.com/results?search_query=pokopia+all+pokemon+how+to+get"),
-    VideoTab("Biome Tips",    "https://www.youtube.com/results?search_query=pokopia+biome+building+tips"),
-    VideoTab("TikTok",        "https://www.tiktok.com/search?q=pokopia+build")
+    VideoTab("Constructions FR",   "https://www.youtube.com/results?search_query=pokopia+construction+guide+francais"),
+    VideoTab("Design d'île FR",  "https://www.youtube.com/results?search_query=pokopia+design+ile+francais"),
+    VideoTab("Tous Pokémon FR",   "https://www.youtube.com/results?search_query=pokopia+tous+les+pokemon+francais"),
+    VideoTab("Builds EN",          "https://www.youtube.com/results?search_query=pokopia+house+build+tutorial"),
+    VideoTab("Biomes EN",          "https://www.youtube.com/results?search_query=pokopia+biome+guide+english"),
+    VideoTab("TikTok",             "https://www.tiktok.com/search?q=pokopia")
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,18 +35,16 @@ fun VideoHubScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Video Hub", fontWeight = FontWeight.Bold) },
+                title = { Text("Hub Vidéo", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour")
                     }
                 }
             )
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-
-            // Tab row (scrollable)
             ScrollableTabRow(selectedTabIndex = selectedTab) {
                 VIDEO_TABS.forEachIndexed { index, tab ->
                     Tab(
@@ -56,7 +55,6 @@ fun VideoHubScreen(navController: NavController) {
                 }
             }
 
-            // WebView
             AndroidView(
                 factory = { context ->
                     WebView(context).apply {

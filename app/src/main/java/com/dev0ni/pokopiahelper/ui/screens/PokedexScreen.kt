@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -40,7 +41,7 @@ fun PokedexScreen(navController: NavController) {
                 title = { Text("Pokédex", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
                 },
                 actions = {
@@ -59,23 +60,29 @@ fun PokedexScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            // Search bar
-            SearchBar(
-                query = state.searchQuery,
-                onQueryChange = vm::onSearch,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            OutlinedTextField(
+                value = state.searchQuery,
+                onValueChange = vm::onSearch,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                placeholder = { Text("Rechercher un Pokémon...") },
+                leadingIcon = { Icon(Icons.Default.Search, null) },
+                trailingIcon = {
+                    if (state.searchQuery.isNotEmpty()) {
+                        IconButton(onClick = { vm.onSearch("") }) {
+                            Icon(Icons.Default.Clear, null)
+                        }
+                    }
+                },
+                singleLine = true,
+                shape = RoundedCornerShape(28.dp)
             )
 
-            // Progress
             LinearProgressIndicator(
                 progress = { if (state.totalCount > 0) state.caughtCount.toFloat() / state.totalCount else 0f },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).height(6.dp)
                     .clip(RoundedCornerShape(4.dp))
             )
 
-            // Caught filter chips
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
@@ -86,16 +93,15 @@ fun PokedexScreen(navController: NavController) {
                         onClick = { vm.onCaughtFilter(filter) },
                         label = {
                             Text(when (filter) {
-                                CaughtFilter.ALL     -> "All"
-                                CaughtFilter.CAUGHT  -> "Attracted"
-                                CaughtFilter.MISSING -> "Missing"
+                                CaughtFilter.ALL     -> "Tous"
+                                CaughtFilter.CAUGHT  -> "Attirés"
+                                CaughtFilter.MISSING -> "Manquants"
                             })
                         }
                     )
                 }
             }
 
-            // Biome filter chips
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)
@@ -104,7 +110,7 @@ fun PokedexScreen(navController: NavController) {
                     FilterChip(
                         selected = state.selectedBiome == null,
                         onClick = { vm.onBiomeFilter(null) },
-                        label = { Text("All Biomes") }
+                        label = { Text("Tous les Biomes") }
                     )
                 }
                 items(BiomeType.entries) { biome ->
@@ -122,7 +128,6 @@ fun PokedexScreen(navController: NavController) {
                 }
             }
 
-            // Pokémon list
             LazyColumn(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -133,26 +138,6 @@ fun PokedexScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Composable
-private fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier) {
-    OutlinedTextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = modifier,
-        placeholder = { Text("Search Pokémon...") },
-        leadingIcon = { Icon(Icons.Default.Search, null) },
-        trailingIcon = {
-            if (query.isNotEmpty()) {
-                IconButton(onClick = { onQueryChange("") }) {
-                    Icon(Icons.Default.Clear, null)
-                }
-            }
-        },
-        singleLine = true,
-        shape = RoundedCornerShape(28.dp)
-    )
 }
 
 @Composable
@@ -174,15 +159,13 @@ private fun PokemonRow(pokemon: Pokemon, onToggle: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Pokémon number
             Text(
-                "#%03d".format(pokemon.id),
+                "#%03d".format(pokemon.ndex),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 modifier = Modifier.width(40.dp)
             )
 
-            // Caught indicator dot
             Box(
                 modifier = Modifier
                     .size(14.dp)
@@ -197,7 +180,6 @@ private fun PokemonRow(pokemon: Pokemon, onToggle: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
             }
 
-            // Type badges
             Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 pokemon.types.forEach { type ->
                     Box(
@@ -212,7 +194,6 @@ private fun PokemonRow(pokemon: Pokemon, onToggle: () -> Unit) {
                 }
             }
 
-            // Biome dot
             Box(
                 modifier = Modifier
                     .size(12.dp)
@@ -220,7 +201,6 @@ private fun PokemonRow(pokemon: Pokemon, onToggle: () -> Unit) {
                     .background(pokemon.biome.color)
             )
 
-            // Checkbox
             Checkbox(
                 checked = pokemon.isCaught,
                 onCheckedChange = { onToggle() }

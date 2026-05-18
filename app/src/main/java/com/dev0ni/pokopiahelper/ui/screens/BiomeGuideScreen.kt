@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -31,10 +32,10 @@ fun BiomeGuideScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Biome Guide", fontWeight = FontWeight.Bold) },
+                title = { Text("Guide des Biomes", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour")
                     }
                 }
             )
@@ -55,7 +56,6 @@ fun BiomeGuideScreen(navController: NavController) {
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Column {
-                        // Header
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -100,11 +100,9 @@ fun BiomeGuideScreen(navController: NavController) {
                                 HorizontalDivider()
                                 Spacer(Modifier.height(4.dp))
 
-                                // Description
                                 Text(biome.description, style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f))
 
-                                // Unlock condition
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -118,12 +116,11 @@ fun BiomeGuideScreen(navController: NavController) {
                                 }
 
                                 Spacer(Modifier.height(4.dp))
-                                Text("Pokémon in this biome:",
+                                Text("Pokémon dans ce biome :",
                                     fontWeight = FontWeight.SemiBold,
                                     style = MaterialTheme.typography.titleSmall)
 
-                                // Pokemon chips in wrapping rows (simulated with LazyRow batches)
-                                val chunks = biomePokemon.chunked(4)
+                                val chunks = biomePokemon.sortedBy { it.ndex }.chunked(4)
                                 chunks.forEach { chunk ->
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -145,7 +142,7 @@ fun BiomeGuideScreen(navController: NavController) {
                                 }
 
                                 Spacer(Modifier.height(4.dp))
-                                Text("Key habitats to build:",
+                                Text("Habitats clés à construire :",
                                     fontWeight = FontWeight.SemiBold,
                                     style = MaterialTheme.typography.titleSmall)
 

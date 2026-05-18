@@ -42,15 +42,15 @@ fun HomeScreen(navController: NavController) {
     val state by vm.uiState.collectAsStateWithLifecycle()
 
     val cards = listOf(
-        FeatureCard("Pokédex", "311 Pokémon tracker", Icons.Default.Pets,
+        FeatureCard("Pokédex", "311 Pokémon à trouver", Icons.Default.Pets,
             listOf(Color(0xFF11998E), Color(0xFF38EF7D)), Screen.Pokedex.route),
-        FeatureCard("Biome Guide", "5 areas & habitats", Icons.Default.Landscape,
+        FeatureCard("Guide des Biomes", "5 zones & habitats", Icons.Default.Landscape,
             listOf(Color(0xFF134E5E), Color(0xFF71B280)), Screen.BiomeGuide.route),
-        FeatureCard("Building Guide", "25 tips & tricks", Icons.Default.Construction,
+        FeatureCard("Guide Construction", "Conseils & astuces", Icons.Default.Construction,
             listOf(Color(0xFFB79891), Color(0xFF94716B)), Screen.BuildingGuide.route),
-        FeatureCard("Video Hub", "YouTube & TikTok", Icons.Default.PlayCircle,
+        FeatureCard("Hub Vidéo", "YouTube & TikTok", Icons.Default.PlayCircle,
             listOf(Color(0xFFFF512F), Color(0xFFDD2476)), Screen.VideoHub.route),
-        FeatureCard("Island Map", "S Pen pixel editor", Icons.Default.Draw,
+        FeatureCard("Carte de l'Île", "Éditeur pixel S Pen", Icons.Default.Draw,
             listOf(Color(0xFF4776E6), Color(0xFF8E54E9)), Screen.MapEditor.route),
     )
 
@@ -76,14 +76,13 @@ fun HomeScreen(navController: NavController) {
         ) {
             Spacer(Modifier.height(8.dp))
 
-            // Progress card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Column(Modifier.padding(20.dp)) {
-                    Text("Your Progress", style = MaterialTheme.typography.titleMedium,
+                    Text("Votre Progression", style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.height(8.dp))
                     Row(
@@ -97,7 +96,7 @@ fun HomeScreen(navController: NavController) {
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
                         )
-                        Text("Pokémon attracted",
+                        Text("Pokémon attirés",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
                     }
@@ -110,7 +109,6 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-            // Feature grid
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
