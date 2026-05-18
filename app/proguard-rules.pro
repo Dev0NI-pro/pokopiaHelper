@@ -1,0 +1,3 @@
+-keep class com.dev0ni.pokopiahelper.data.** { *; }
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
