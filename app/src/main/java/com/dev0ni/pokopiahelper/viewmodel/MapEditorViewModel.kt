@@ -103,10 +103,10 @@ class MapEditorViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun persistAll(pixels: IntArray) = viewModelScope.launch {
-        val entities = pixels.mapIndexedNotNull { index, argb ->
-            if (argb != Color.White.toArgb())
-                MapPixelEntity(index, argb, "")
-            else null
+        val white = Color.White.toArgb()
+        val entities = pixels.indices.mapNotNull { index ->
+            val argb = pixels[index]
+            if (argb != white) MapPixelEntity(index, argb, "") else null
         }
         repo.clearMap()
         repo.saveAll(entities)
