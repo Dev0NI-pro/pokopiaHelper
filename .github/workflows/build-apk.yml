@@ -1,0 +1,77 @@
+name: Build & Release APK
+
+on:
+  push:
+    branches:
+      - claude/build-deploy-apk-9Gv6q
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Get version name
+        id: version
+        run: |
+          VERSION=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pokopiahelper-debug-v${{ steps.version.outputs.version }}
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}-build-${{ github.run_number }}
+          name: "PokopiaHelper v${{ steps.version.outputs.version }} (build ${{ github.run_number }})"
+          body: |
+            ## PokopiaHelper APK
+
+            Build automatique depuis le commit `${{ github.sha }}`
+
+            ### Installation
+            1. Télécharge le fichier `.apk` ci-dessous
+            2. Sur ton téléphone, active **Sources inconnues** (Paramètres > Sécurité)
+            3. Ouvre le fichier APK téléchargé pour installer
+
+            > ⚠️ Build de debug — signé avec la clé de debug Android
+          files: app/build/outputs/apk/debug/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
