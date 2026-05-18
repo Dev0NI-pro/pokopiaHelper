@@ -9,10 +9,10 @@ data class BuildingTip(
 )
 
 enum class TipCategory(val displayName: String) {
-    BASICS("Building Basics"),
-    ROOMS("Room Rules"),
+    BASICS("Bases de Construction"),
+    ROOMS("Règles des Pièces"),
     HABITATS("Habitats"),
-    TERRAIN("Terrain & Landscaping"),
-    ADVANCED("Advanced Tips"),
-    POKEMON("Pokémon Attraction")
+    TERRAIN("Terrain & Paysage"),
+    ADVANCED("Conseils Avancés"),
+    POKEMON("Attraction Pokémon")
 }

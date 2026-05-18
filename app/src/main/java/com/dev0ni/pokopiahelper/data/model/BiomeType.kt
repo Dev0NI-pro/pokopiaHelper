@@ -9,33 +9,33 @@ enum class BiomeType(
     val unlockCondition: String
 ) {
     WITHERED_WASTELAND(
-        "Withered Wasteland",
+        "Terres Dévastées",
         Color(0xFF8B6914),
-        "The first biome you restore. Dry, ruined terrain with Ghost and Ground-type Pokémon waiting for habitats.",
-        "Available from the start"
+        "Le premier biome à restaurer. Terrain sec et en ruines où des Pokémon de type Spectre et Sol attendent des habitats.",
+        "Disponible dès le début"
     ),
     BLEAK_BEACH(
-        "Bleak Beach",
+        "Plage Morne",
         Color(0xFFE8D44D),
-        "A dark beach where the electricity went out. Restore power to attract Water and Electric-type Pokémon.",
-        "Complete Withered Wasteland main quest"
+        "Une plage sombre où l'électricité a disparu. Rétablissez le courant pour attirer les Pokémon de type Eau et Électrik.",
+        "Terminer la quête principale des Terres Dévastées"
     ),
     PALETTE_TOWN(
-        "Palette Town",
+        "Bourg Palette",
         Color(0xFF7DCEA0),
-        "The sandbox biome with no main quest. Build freely and attract a wide variety of common Pokémon.",
-        "Unlocked automatically after tutorial"
+        "Le biome bac à sable sans quête principale. Construisez librement et attirez une grande variété de Pokémon.",
+        "Débloqué automatiquement après le tutoriel"
     ),
     ROCKY_RIDGES(
-        "Rocky Ridges",
+        "Crêtes Rocheuses",
         Color(0xFF7F8C8D),
-        "Mountainous terrain rich in Rock, Fighting and Steel-type Pokémon. Build structured habitats to attract them.",
-        "Complete Bleak Beach main quest"
+        "Terrain montagneux riche en Pokémon de type Roche, Combat et Acier. Construisez des habitats structurés pour les attirer.",
+        "Terminer la quête principale de la Plage Morne"
     ),
     SPARKLING_SKYLANDS(
-        "Sparkling Skylands",
+        "Archipel Céleste",
         Color(0xFF85C1E9),
-        "The final area themed after Celadon City in the sky. Home to Flying, Dragon and Psychic-type Pokémon.",
-        "Complete Rocky Ridges main quest"
+        "La zone finale inspirée de Céladopole dans les cieux. Abrite des Pokémon de type Vol, Dragon et Psy.",
+        "Terminer la quête principale des Crêtes Rocheuses"
     )
 }

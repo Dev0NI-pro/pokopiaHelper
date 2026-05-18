@@ -45,6 +45,7 @@ class PokedexViewModel(app: Application) : AndroidViewModel(app) {
                     CaughtFilter.MISSING -> !p.isCaught
                 }
             }
+            .sortedBy { it.ndex }
         PokedexUiState(
             pokemon = filtered,
             searchQuery = query,
